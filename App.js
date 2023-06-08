@@ -1,25 +1,17 @@
-import React  from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { PaperProvider } from "react-native-paper";
+import BottomTabs from "./src/navigation/BottomTabs";
+import { mainStyle, theme } from "./src/styles/appStyle";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <PaperProvider theme={theme}>
+      <StatusBar backgroundColor={theme.colors.background} />
+      <SafeAreaView style={mainStyle.rootContainer}>
+        <BottomTabs />
+      </SafeAreaView>
+    </PaperProvider>
   );
 }
-const textColor = '#FFF'
-
-const styles = StyleSheet.create({
-	
-  container: {
-	alignItems: 'center',
-	backgroundColor: textColor,
-    flex: 1,
-    justifyContent: 'center',
-  },
-});
-
-
