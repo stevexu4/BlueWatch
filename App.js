@@ -1,17 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PaperProvider } from "react-native-paper";
 import BottomTabs from "./src/navigation/BottomTabs";
-import { mainStyle, theme } from "./src/styles/appStyle";
+import { mainStyle, theme1, theme2 } from "./src/styles/appStyle";
+import AppbarThemeSwitcher from "./src/components/AppbarThemeSwitcher";
+import ThemeContext from "./src/context/ThemeContext";
+
 
 export default function App() {
+  const [actualTheme, setactualTheme] = useState(theme1);
+
+  const toggleStyle = () => {
+    setactualTheme(actualTheme === theme1 ? theme2 : theme1);
+  };
+
   return (
-    <PaperProvider theme={theme}>
-      <StatusBar backgroundColor={theme.colors.background} />
+    <PaperProvider theme={actualTheme}>
       <SafeAreaView style={mainStyle.rootContainer}>
-        <BottomTabs />
+        <ThemeContext.Provider value={{ toggleStyle }}>
+          <AppbarThemeSwitcher actualTheme={actualTheme}/> 
+          <BottomTabs actualTheme={actualTheme} />
+        </ThemeContext.Provider>
       </SafeAreaView>
+      <StatusBar backgroundColor={actualTheme.colors.background} />
     </PaperProvider>
   );
 }

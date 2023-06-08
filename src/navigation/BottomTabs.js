@@ -1,11 +1,10 @@
 import * as React from "react";
 import { BottomNavigation } from "react-native-paper";
-import { theme } from "../styles/appStyle";
 import HealthGoals from "../pages/HealthGoals";
 import FoodDatabase from "../pages/FoodDatabase";
 import MealPlanning from "../pages/MealPlanning";
 
-const BottomTabs = () => {
+const BottomTabs = ({actualTheme}) => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {
@@ -39,9 +38,8 @@ const BottomTabs = () => {
       navigationState={{ index, routes }}
       onIndexChange={setIndex}
       renderScene={renderScene}
-      barStyle={{ backgroundColor: theme.colors.background }}
-      activeColor={theme.colors.primary}
-      inactiveColor={theme.colors.accent}
+      barStyle={{ backgroundColor: actualTheme.colors.background }}
+      activeColor={actualTheme.colors.primary}
     />
   );
 };
