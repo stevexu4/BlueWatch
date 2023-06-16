@@ -21,9 +21,10 @@ export const theme2 = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#7900FF',
+    primary: '#ebd9b7',
     secondary: '#548CFF',
     background: "#121212",
-    onSurface: "#ebd9b7"
+    onSurface: "#ebd9b7",
+    secondaryContainer: "red",
   },
 };
