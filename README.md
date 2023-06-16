@@ -24,7 +24,7 @@ To do this place yourself in the project directory and run :
 npm install
 
 # Run expo project
-npx expo start
+API_APP_ID="ba5f846a" API_APP_KEY="36a4c3f3a6a11e2ae624186f144de96c" npx expo start
 ```
 
 ## Features availaible
@@ -46,8 +46,14 @@ npx expo start
 - ⏩ Food database
 - ⏩ Meal Planning
 
+## Food database API
+
+This project uses the API availaible at : 
+<https://developer.edamam.com/food-database-api-docs>
+
 ## GITMOJI
-This project is using gitmoji for more information : https://github.com/carloscuesta/gitmoji
+
+This project is using gitmoji for more information : <https://github.com/carloscuesta/gitmoji>
 
 ## License
 
