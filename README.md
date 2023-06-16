@@ -4,8 +4,8 @@ Blue watch is your companion to help you during your weight gain/loss and helps 
 
 ## Team
 
-- Steve XU 
-- Adham AWAD 
+- Steve XU
+- Adham AWAD
 
 ## Objective
 
@@ -29,7 +29,7 @@ API_APP_ID="ba5f846a" API_APP_KEY="36a4c3f3a6a11e2ae624186f144de96c" npx expo st
 
 ## Features availaible
 
-- Feature availaible #1
+- Light Theme 🌞/ Dark Theme 🌙
 - Feature availaible #2
 - Feature availaible #3
 
@@ -41,14 +41,25 @@ API_APP_ID="ba5f846a" API_APP_KEY="36a4c3f3a6a11e2ae624186f144de96c" npx expo st
 
 ## Dev Roadmap
 
-- ⏩ Setuping the project
+Labels :
+
+✅ Done
+🟨 Partially done
+⏩ To do
+
+- ✅ Setup the project
+- ✅ Setup Paper with custom Light Theme 🌞/ Dark Theme 🌙
+- ✅ Setup Env variables
 - ⏩ Health Goals
 - ⏩ Food database
+- ✅ Setup API
+- 🟨 Show results with a nice UI
+- ⏩ Selecting foods carry on to Meal Planning  
 - ⏩ Meal Planning
 
 ## Food database API
 
-This project uses the API availaible at : 
+This project uses the API availaible at :
 <https://developer.edamam.com/food-database-api-docs>
 
 ## GITMOJI
