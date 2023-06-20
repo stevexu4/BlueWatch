@@ -1,7 +1,7 @@
 {
-	"editor.formatOnSave": true,
-	"editor.formatOnPaste": false,
-	"bracketSameLine": false,
-	"tabWidth": 2,
-	"useTabs": false
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "bracketSameLine": false,
+  "tabWidth": 2,
+  "useTabs": false
 }

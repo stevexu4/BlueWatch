@@ -1,3 +1,9 @@
 {
-	"prettier.configPath": "."
+    "prettier.enableDebugLogs": true,
+    "prettier.jsxSingleQuote": true,
+    "prettier.semi": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.singleAttributePerLine": true,
+    "prettier.configPath": "C:\\Users\\Steve\\Documents\\DEV\\MOBILE\\BlueWatch\\.prettierrc",
+    "prettier.endOfLine": "auto"
 }
