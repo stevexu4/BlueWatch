@@ -69,3 +69,7 @@ This project is using gitmoji for more information : <https://github.com/carlosc
 ## License
 
 This project is under Apache-2.0 license.
+
+## Course
+
+This project was made for this course : <https://react-native-course-esiee.netlify.app/>
