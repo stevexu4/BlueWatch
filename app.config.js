@@ -1,6 +1,6 @@
 // https://docs.expo.dev/guides/environment-variables/
-// Champ extra pour les variables d'environnements
-// Pour les variables se référer au README.md
+// Extra field is for environment variables
+// To see the variables please look at README.md
 
 module.exports = {
     name: 'BlueWatch',
