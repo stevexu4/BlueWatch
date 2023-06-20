@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
-import { Button, Card, Text, TextInput } from "react-native-paper";
-import { ScrollView, View } from "react-native";
+import { Button, TextInput } from "react-native-paper";
+import { FlatList, View } from "react-native";
 import { fetchFoodData } from "../services/apiService";
-import { TouchableOpacity } from "react-native";
 import { FoodCalendarContext } from "../context/FoodCalendarContext";
+import FoodItemCard from "../components/FoodItemCard";
 
 const FoodDatabase = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [foodData, setFoodData] = useState(null);
   const { addFoodToDate } = useContext(FoodCalendarContext);
 
@@ -19,9 +19,16 @@ const FoodDatabase = () => {
     }
   };
 
-  const handleFoodItemClick = (foodItem) => {
+  const handleFoodItemCardClick = (foodItem) => {
     addFoodToDate("2023-06-12", foodItem);
   };
+
+  const renderItem = ({ item }) => (
+    <FoodItemCard
+      food={item.food}
+      onPress={() => handleFoodItemCardClick(item.food)}
+    />
+  );
 
   return (
     <View>
@@ -31,22 +38,12 @@ const FoodDatabase = () => {
         onChangeText={setSearchQuery}
         placeholder="Enter food item"
       />
-      <Button onPress={handlePress}>Touch me Food DB</Button>
-      <ScrollView>
-        {foodData && foodData.map((data, index) => (
-          // https://react.dev/learn/rendering-lists#why-does-react-need-keys
-          // TLDR : Specifying key allows react to render better
-          // Warning if not set
-          <TouchableOpacity key={index} onPress={() => handleFoodItemClick(data.food)} >
-            <Card mode="outlined">
-              <Card.Content>
-                <Text variant="titleLarge">{data.food.label}</Text>
-              </Card.Content>
-              <Card.Cover source={{ uri: data.food.image }} />
-            </Card>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      <Button onPress={handlePress}>Search for a food</Button>
+      <FlatList
+        data={foodData}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={renderItem}
+      />
     </View>
   );
 };
