@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import { View, StyleSheet, Text, ScrollView } from "react-native";
-import { TextInput, Button, RadioButton } from "react-native-paper";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { Text, TextInput, Button, RadioButton } from "react-native-paper";
 import { HealthGoalsContext } from "../context/HealthGoalsContext";
 
 const HealthGoals = () => {
