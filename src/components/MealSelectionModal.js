@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import {
   SegmentedButtons,
+  Button,
   Text,
   Portal,
   Modal,
   useTheme,
-  TextInput,
 } from "react-native-paper";
 
 // Setup translation
@@ -19,6 +19,7 @@ import NumberInput from "./NumberInput";
 const MealSelectionModal = ({ visible, onDismiss, onSubmit, selectedFood }) => {
   const [inputDate, setInputDate] = React.useState(undefined);
   const [selectedMeal, setSelectedMeal] = useState("Breakfast");
+  const [inputWeight, setInputWeight] = useState("100");
 
   const theme = useTheme();
   const style = {
@@ -26,6 +27,24 @@ const MealSelectionModal = ({ visible, onDismiss, onSubmit, selectedFood }) => {
     padding: 20,
     borderRadius: 20,
     backgroundColor: theme.colors.background,
+  };
+
+  const handleFormSubmit = () => {
+
+    // Need to handle errors somehow
+    // @TODO
+    if (!inputDate || !inputWeight) {
+        return;
+    }
+
+    const formData = {
+      food: selectedFood,
+      weight: inputWeight,
+      date: inputDate,
+      meal: selectedMeal,
+    };
+    onSubmit(formData);
+    console.log(formData);
   };
 
   return (
@@ -38,7 +57,7 @@ const MealSelectionModal = ({ visible, onDismiss, onSubmit, selectedFood }) => {
         <View>
           <Text>Food : {selectedFood.label}</Text>
           <Text>Select the weight in grams</Text>
-          <NumberInput label="Grams (g)"/>
+          <NumberInput label="Grams (g)" onChange={setInputWeight} />
           <Text>Select a date</Text>
           <DatePickerInput
             mode="outlined"
@@ -59,6 +78,7 @@ const MealSelectionModal = ({ visible, onDismiss, onSubmit, selectedFood }) => {
               { value: "Dinner", label: "Dinner" },
             ]}
           />
+          <Button onPress={handleFormSubmit}>Submit</Button>
         </View>
       </Modal>
     </Portal>
