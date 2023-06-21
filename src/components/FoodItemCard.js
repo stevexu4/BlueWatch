@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     elevation: 2,
     padding: 10,
+    mode: "outlined ",
   },
   title: {
     fontSize: 13,
