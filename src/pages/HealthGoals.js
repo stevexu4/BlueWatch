@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useState, useContext } from "react";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
 import { TextInput, Button, RadioButton } from "react-native-paper";
-import { Picker } from "@react-native-picker/picker";
-import { HealthGoalsContext } from "../context/ThemeContext";
+import { HealthGoalsContext } from "../context/HealthGoalsContext";
 
 const HealthGoals = () => {
   const [age, setAge] = useState("");
@@ -12,50 +11,35 @@ const HealthGoals = () => {
   const [activityLevel, setActivityLevel] = useState("");
   const [healthGoal, setHealthGoal] = useState("");
 
-  const handleSubmit = () => {
-    const userBMR = calculateBMR(
-      parseInt(age),
-      gender,
-      parseInt(height),
-      parseInt(weight),
-      activityLevel
-    );
+  const { caloricIntake, updateCaloricIntake } = useContext(HealthGoalsContext);
 
-    let adjustedCaloricIntake = 0;
-
-    switch (healthGoal) {
-      case "loss":
-        adjustedCaloricIntake = userBMR * 0.9;
-        break;
-      case "gain":
-        adjustedCaloricIntake = userBMR * 1.1;
-        break;
-      case "maintenance":
-      default:
-        adjustedCaloricIntake = userBMR;
-        break;
+  const handleFormSubmit = () => {
+    if (!isFormValid()) {
+      alert("Please fill in all fields");
+      return;
     }
 
-    // Process the form data and adjustedCaloricIntake here
-    console.log("Form submitted:", {
-      age,
-      gender,
-      height,
-      weight,
-      activityLevel,
-      healthGoal,
-      userBMR,
-      adjustedCaloricIntake,
-    });
+    const bmr = calculateBMR();
+
+    const totalCaloricIntake = adjustCaloricIntakeBasedOnGoal(bmr);
+    updateCaloricIntake(totalCaloricIntake);
   };
 
-  const calculateBMR = (age, gender, height, weight, activityLevel) => {
+  const calculateBMR = () => {
     let bmr = 0;
 
     if (gender === "male") {
-      bmr = 88.362 + 13.397 * weight + 4.799 * height - 5.677 * age;
+      bmr =
+        88.362 +
+        13.397 * Number(weight) +
+        4.799 * Number(height) -
+        5.677 * Number(age);
     } else if (gender === "female") {
-      bmr = 447.593 + 9.247 * weight + 3.098 * height - 4.33 * age;
+      bmr =
+        447.593 +
+        9.247 * Number(weight) +
+        3.098 * Number(height) -
+        4.33 * Number(age);
     }
 
     let adjustedBMR = 0;
@@ -84,6 +68,26 @@ const HealthGoals = () => {
     return adjustedBMR;
   };
 
+  const adjustCaloricIntakeBasedOnGoal = (bmr) => {
+    let adjustedCaloricIntake = bmr;
+
+    switch (healthGoal) {
+      case "loss":
+        adjustedCaloricIntake -= adjustedCaloricIntake * 0.1;
+        break;
+      case "maintenance":
+        // no adjustment needed
+        break;
+      case "gain":
+        adjustedCaloricIntake += adjustedCaloricIntake * 0.1;
+        break;
+      default:
+        break;
+    }
+
+    return Math.round(adjustedCaloricIntake);
+  };
+
   const isFormValid = () => {
     return (
       age !== "" &&
@@ -95,35 +99,60 @@ const HealthGoals = () => {
     );
   };
 
+  const renderRadioButtons = (options, selectedValue, onValueChange) => {
+    return options.map((option) => (
+      <View style={styles.radioButton} key={option.value}>
+        <RadioButton.Item label={option.label} value={option.value} />
+      </View>
+    ));
+  };
+
+  const activityLevelOptions = [
+    { label: "Sedentary", value: "sedentary" },
+    { label: "Light Exercise", value: "light" },
+    { label: "Moderate Exercise", value: "moderate" },
+    { label: "Heavy Exercise", value: "heavy" },
+    { label: "Extra Active", value: "extraActive" },
+  ];
+
+  const healthGoalOptions = [
+    { label: "Weight Loss", value: "loss" },
+    { label: "Weight Maintenance", value: "maintenance" },
+    { label: "Weight Gain", value: "gain" },
+  ];
+
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
+      {caloricIntake !== 0 && (
+        <View style={styles.resultContainer}>
+          <Text style={styles.resultText}>Your Daily Caloric Intake:</Text>
+          <Text style={styles.resultValue}>{caloricIntake} calories</Text>
+        </View>
+      )}
       <TextInput
         mode="outlined"
         label="Age"
         value={age}
-        onChangeText={(text) => setAge(text)}
+        onChangeText={setAge}
         keyboardType="numeric"
       />
       <TextInput
         mode="outlined"
         label="Height"
         value={height}
-        onChangeText={(text) => setHeight(text)}
+        onChangeText={setHeight}
         keyboardType="numeric"
       />
       <TextInput
         mode="outlined"
         label="Weight"
         value={weight}
-        onChangeText={(text) => setWeight(text)}
+        onChangeText={setWeight}
         keyboardType="numeric"
       />
 
       <View style={styles.genderContainer}>
-        <RadioButton.Group
-          onValueChange={(value) => setGender(value)}
-          value={gender}
-        >
+        <RadioButton.Group onValueChange={setGender} value={gender}>
           <View style={styles.radioButton}>
             <RadioButton.Item label="Male" value="male" />
           </View>
@@ -132,41 +161,70 @@ const HealthGoals = () => {
           </View>
         </RadioButton.Group>
       </View>
-      <Picker
-        mode="dialog"
-        selectedValue={activityLevel}
-        onValueChange={(value) => setActivityLevel(value)}
+
+      <View style={styles.radioButtonContainer}>
+        <Text>Activity Level:</Text>
+        <RadioButton.Group
+          onValueChange={setActivityLevel}
+          value={activityLevel}
+        >
+          {renderRadioButtons(
+            activityLevelOptions,
+            activityLevel,
+            setActivityLevel
+          )}
+        </RadioButton.Group>
+      </View>
+
+      <View style={styles.radioButtonContainer}>
+        <Text>Health Goal:</Text>
+        <RadioButton.Group onValueChange={setHealthGoal} value={healthGoal}>
+          {renderRadioButtons(healthGoalOptions, healthGoal, setHealthGoal)}
+        </RadioButton.Group>
+      </View>
+
+      <Button
+        mode="contained"
+        onPress={handleFormSubmit}
+        disabled={!isFormValid()}
+        style={styles.submitButton}
       >
-        <Picker.Item label="Sedentary" value="sedentary" />
-        <Picker.Item label="Light Exercise" value="light" />
-        <Picker.Item label="Moderate Exercise" value="moderate" />
-        <Picker.Item label="Heavy Exercise" value="heavy" />
-        <Picker.Item label="Extra Active" value="extraActive" />
-      </Picker>
-      <Picker
-        mode="dialog"
-        selectedValue={healthGoal}
-        onValueChange={(value) => setHealthGoal(value)}
-      >
-        <Picker.Item label="Weight Loss" value="loss" />
-        <Picker.Item label="Weight Maintenance" value="maintenance" />
-        <Picker.Item label="Weight Gain" value="gain" />
-      </Picker>
-      <Button mode="contained" onPress={handleSubmit} disabled={!isFormValid()}>
         Submit
       </Button>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 16,
   },
   genderContainer: {
     borderRadius: 4,
     borderWidth: 1,
+    marginTop: 8,
+  },
+  radioButtonContainer: {
+    marginTop: 16,
+  },
+  radioButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 8,
+  },
+  submitButton: {
+    marginTop: 24,
+  },
+  resultContainer: {
+    marginTop: 24,
+    alignItems: "center",
+  },
+  resultText: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  resultValue: {
+    fontSize: 24,
     marginTop: 8,
   },
 });

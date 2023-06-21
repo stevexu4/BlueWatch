@@ -6,12 +6,14 @@ import BottomTabs from "./src/navigation/BottomTabs";
 import { mainStyle, theme1, theme2 } from "./src/styles/appStyle";
 import AppbarThemeSwitcher from "./src/components/AppbarThemeSwitcher";
 import ThemeContext from "./src/context/ThemeContext";
-import { FoodCalendarCalendarProvider } from "./src/context/FoodCalendarContext"
+import { FoodCalendarCalendarProvider } from "./src/context/FoodCalendarContext";
+import HealthGoals from "./src/pages/HealthGoals";
+import { HealthGoalsProvider } from "./src/context/HealthGoalsContext";
 
 export default function App() {
   const [actualTheme, setactualTheme] = useState(theme1);
   const [index, setIndex] = useState(0);
-  
+
   const toggleStyle = () => {
     setactualTheme(actualTheme === theme1 ? theme2 : theme1);
   };
@@ -21,8 +23,10 @@ export default function App() {
       <SafeAreaView style={mainStyle.rootContainer}>
         <ThemeContext.Provider value={{ toggleStyle, index, setIndex }}>
           <FoodCalendarCalendarProvider>
-            <AppbarThemeSwitcher actualTheme={actualTheme}/> 
-            <BottomTabs actualTheme={actualTheme} />
+            <HealthGoalsProvider>
+              <AppbarThemeSwitcher actualTheme={actualTheme} />
+              <BottomTabs actualTheme={actualTheme} />
+            </HealthGoalsProvider>
           </FoodCalendarCalendarProvider>
         </ThemeContext.Provider>
       </SafeAreaView>
