@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View } from "react-native";
 import {
   SegmentedButtons,
+  Button,
   Text,
   Portal,
   Modal,
   useTheme,
-  TextInput,
 } from "react-native-paper";
 
 // Setup translation
@@ -15,10 +15,21 @@ registerTranslation("fr", fr);
 import { DatePickerInput } from "react-native-paper-dates";
 
 import NumberInput from "./NumberInput";
+import ThemeContext from "../context/ThemeContext";
+import { FoodCalendarContext } from "../context/FoodCalendarContext";
 
-const MealSelectionModal = ({ visible, onDismiss, onSubmit, selectedFood }) => {
+
+const MealSelectionModal = ({ visible, setVisible, onDismiss, onSubmit, selectedFood }) => {
   const [inputDate, setInputDate] = React.useState(undefined);
   const [selectedMeal, setSelectedMeal] = useState("Breakfast");
+  const [inputWeight, setInputWeight] = useState("100");
+  const { setIndex } = useContext(ThemeContext);
+
+  const { addFoodToDate } = useContext(FoodCalendarContext);
+
+  const navigateToMealPlanning = () => {
+    setIndex(2);
+  }
 
   const theme = useTheme();
   const style = {
@@ -26,6 +37,18 @@ const MealSelectionModal = ({ visible, onDismiss, onSubmit, selectedFood }) => {
     padding: 20,
     borderRadius: 20,
     backgroundColor: theme.colors.background,
+  };
+
+  const handleFormSubmit = () => {
+    // Need to handle errors somehow
+    // @TODO
+    if (!inputDate || !inputWeight) {
+      return;
+    }
+
+    addFoodToDate(inputDate, selectedMeal, selectedFood, inputWeight)
+    navigateToMealPlanning();
+    setVisible(false);
   };
 
   return (
@@ -38,7 +61,7 @@ const MealSelectionModal = ({ visible, onDismiss, onSubmit, selectedFood }) => {
         <View>
           <Text>Food : {selectedFood.label}</Text>
           <Text>Select the weight in grams</Text>
-          <NumberInput label="Grams (g)"/>
+          <NumberInput label="Grams (g)" onChange={setInputWeight} />
           <Text>Select a date</Text>
           <DatePickerInput
             mode="outlined"
@@ -59,6 +82,7 @@ const MealSelectionModal = ({ visible, onDismiss, onSubmit, selectedFood }) => {
               { value: "Dinner", label: "Dinner" },
             ]}
           />
+          <Button onPress={handleFormSubmit}>Submit</Button>
         </View>
       </Modal>
     </Portal>
