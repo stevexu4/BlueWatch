@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Button, TextInput } from "react-native-paper";
-import { FlatList, View } from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 import { fetchFoodData } from "../services/apiService";
 import { FoodCalendarContext } from "../context/FoodCalendarContext";
 import FoodItemCard from "../components/FoodItemCard";
@@ -35,12 +35,13 @@ const FoodDatabase = () => {
   );
 
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput
         mode="outlined"
         value={searchQuery}
         onChangeText={setSearchQuery}
         placeholder="Enter food item"
+        style={styles.textInput}
       />
       <Button onPress={handlePress}>Search for a food</Button>
       <FlatList
@@ -60,5 +61,17 @@ const FoodDatabase = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 16,
+  },
+  textInput: {
+    width: "90%",
+    marginBottom: 10,
+  },
+});
 
 export default FoodDatabase;
