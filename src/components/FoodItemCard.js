@@ -1,6 +1,9 @@
 import React from "react";
-import { TouchableOpacity, View, StyleSheet } from "react-native";
+import { TouchableOpacity, View, StyleSheet, Dimensions } from "react-native";
 import { Card, Text } from "react-native-paper";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 const FoodItemCard = ({ food, onPress }) => (
   <TouchableOpacity onPress={onPress}>
@@ -19,22 +22,22 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
+    margin: 8,
   },
   card: {
-    width: 250,
-    height: 200,
-    margin: 8,
+    width: windowWidth * 0.8,
+    height: windowHeight * 0.3,
     borderRadius: 8,
     elevation: 2,
     padding: 10,
   },
   title: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   cover: {
-    height: 120,
+    height: windowHeight * 0.2,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
   },
