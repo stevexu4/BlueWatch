@@ -5,5 +5,8 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "prettier.singleAttributePerLine": true,
     "prettier.configPath": "C:\\Users\\Steve\\Documents\\DEV\\MOBILE\\BlueWatch\\.prettierrc",
-    "prettier.endOfLine": "auto"
+    "prettier.endOfLine": "auto",
+    "[javascript]": {
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    }
 }

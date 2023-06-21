@@ -20,7 +20,7 @@ import { FoodCalendarContext } from "../context/FoodCalendarContext";
 
 
 const MealSelectionModal = ({ visible, setVisible, onDismiss, onSubmit, selectedFood }) => {
-  const [inputDate, setInputDate] = React.useState(undefined);
+  const [inputDate, setInputDate] = React.useState(new Date());
   const [selectedMeal, setSelectedMeal] = useState("Breakfast");
   const [inputWeight, setInputWeight] = useState("100");
   const { setIndex } = useContext(ThemeContext);
