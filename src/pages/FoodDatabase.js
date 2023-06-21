@@ -13,8 +13,6 @@ const FoodDatabase = () => {
   const [selectedFood, setSelectedFood] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { addFoodToDate } = useContext(FoodCalendarContext);
-
   const handlePress = async () => {
     try {
       const data = await fetchFoodData(searchQuery);
@@ -27,10 +25,6 @@ const FoodDatabase = () => {
   const handleFoodItemCardClick = (foodItem) => {
     setModalVisible(true);
     setSelectedFood(foodItem);
-  };
-
-  const handleModalSubmit = () => {
-    console.log("salut");
   };
 
   const renderItem = ({ item }) => (
@@ -58,9 +52,9 @@ const FoodDatabase = () => {
       {selectedFood && (
         <MealSelectionModal
           visible={modalVisible}
+          setVisible={setModalVisible}
           onDismiss={() => setModalVisible(false)}
           selectedFood={selectedFood}
-          onSubmit={handleModalSubmit}
         />
       )}
     </View>

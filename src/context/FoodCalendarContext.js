@@ -16,12 +16,12 @@ const FoodCalendarContext = React.createContext();
 const FoodCalendarCalendarProvider = ({ children }) => {
   const [dates, setDates] = useState({});
 
-  const addFoodToDate = (date, meal, food) => {
+  const addFoodToDate = (date, meal, food, weight) => {
     setDates((prevDates) => ({
       ...prevDates,
       [date]: {
         ...prevDates[date],
-        [meal]: [...(prevDates[date]?.[meal] || []), food],
+        [meal]: [...(prevDates[date]?.[meal] || []), {"food" : food,"weight": weight}],
       },
     }));
   };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View } from "react-native";
 import {
   SegmentedButtons,
@@ -15,11 +15,21 @@ registerTranslation("fr", fr);
 import { DatePickerInput } from "react-native-paper-dates";
 
 import NumberInput from "./NumberInput";
+import ThemeContext from "../context/ThemeContext";
+import { FoodCalendarContext } from "../context/FoodCalendarContext";
 
-const MealSelectionModal = ({ visible, onDismiss, onSubmit, selectedFood }) => {
+
+const MealSelectionModal = ({ visible, setVisible, onDismiss, onSubmit, selectedFood }) => {
   const [inputDate, setInputDate] = React.useState(undefined);
   const [selectedMeal, setSelectedMeal] = useState("Breakfast");
   const [inputWeight, setInputWeight] = useState("100");
+  const { setIndex } = useContext(ThemeContext);
+
+  const { addFoodToDate } = useContext(FoodCalendarContext);
+
+  const navigateToMealPlanning = () => {
+    setIndex(2);
+  }
 
   const theme = useTheme();
   const style = {
@@ -30,21 +40,15 @@ const MealSelectionModal = ({ visible, onDismiss, onSubmit, selectedFood }) => {
   };
 
   const handleFormSubmit = () => {
-
     // Need to handle errors somehow
     // @TODO
     if (!inputDate || !inputWeight) {
-        return;
+      return;
     }
 
-    const formData = {
-      food: selectedFood,
-      weight: inputWeight,
-      date: inputDate,
-      meal: selectedMeal,
-    };
-    onSubmit(formData);
-    console.log(formData);
+    addFoodToDate(inputDate, selectedMeal, selectedFood, inputWeight)
+    navigateToMealPlanning();
+    setVisible(false);
   };
 
   return (
