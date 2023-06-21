@@ -11,7 +11,6 @@ const FoodDatabase = () => {
   const [foodData, setFoodData] = useState(null);
 
   const [selectedFood, setSelectedFood] = useState(null);
-  const [selectedMeal, setSelectedMeal] = useState("Breakfast");
   const [modalVisible, setModalVisible] = useState(false);
 
   const { addFoodToDate } = useContext(FoodCalendarContext);
@@ -30,9 +29,9 @@ const FoodDatabase = () => {
     setSelectedFood(foodItem);
   };
 
-  const handleModalSubmit = (meal) => {
-    setSelectedMeal(meal);
-  }
+  const handleModalSubmit = () => {
+    console.log("salut");
+  };
 
   const renderItem = ({ item }) => (
     <FoodItemCard
@@ -60,12 +59,10 @@ const FoodDatabase = () => {
         <MealSelectionModal
           visible={modalVisible}
           onDismiss={() => setModalVisible(false)}
-          selectedMeal={selectedMeal}
           selectedFood={selectedFood}
-          onMealSelect={handleModalSubmit}
+          onSubmit={handleModalSubmit}
         />
       )}
-
     </View>
   );
 };
