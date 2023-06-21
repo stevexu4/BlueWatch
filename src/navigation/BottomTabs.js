@@ -1,11 +1,12 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import { BottomNavigation } from "react-native-paper";
 import HealthGoals from "../pages/HealthGoals";
 import FoodDatabase from "../pages/FoodDatabase";
 import MealPlanning from "../pages/MealPlanning";
+import ThemeContext from "../context/ThemeContext";
 
 const BottomTabs = ({actualTheme}) => {
-  const [index, setIndex] = React.useState(0);
+  const { index, setIndex } = useContext(ThemeContext);
   const [routes] = React.useState([
     {
       key: "healthGoals",

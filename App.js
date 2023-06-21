@@ -10,7 +10,8 @@ import { FoodCalendarCalendarProvider } from "./src/context/FoodCalendarContext"
 
 export default function App() {
   const [actualTheme, setactualTheme] = useState(theme1);
-
+  const [index, setIndex] = useState(0);
+  
   const toggleStyle = () => {
     setactualTheme(actualTheme === theme1 ? theme2 : theme1);
   };
@@ -18,7 +19,7 @@ export default function App() {
   return (
     <PaperProvider theme={actualTheme}>
       <SafeAreaView style={mainStyle.rootContainer}>
-        <ThemeContext.Provider value={{ toggleStyle }}>
+        <ThemeContext.Provider value={{ toggleStyle, index, setIndex }}>
           <FoodCalendarCalendarProvider>
             <AppbarThemeSwitcher actualTheme={actualTheme}/> 
             <BottomTabs actualTheme={actualTheme} />
