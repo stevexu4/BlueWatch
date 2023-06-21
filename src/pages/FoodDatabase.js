@@ -4,10 +4,16 @@ import { FlatList, View } from "react-native";
 import { fetchFoodData } from "../services/apiService";
 import { FoodCalendarContext } from "../context/FoodCalendarContext";
 import FoodItemCard from "../components/FoodItemCard";
+import MealSelectionModal from "../components/MealSelectionModal";
 
 const FoodDatabase = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [foodData, setFoodData] = useState(null);
+
+  const [selectedFood, setSelectedFood] = useState(null);
+  const [selectedMeal, setSelectedMeal] = useState("Breakfast");
+  const [modalVisible, setModalVisible] = useState(false);
+
   const { addFoodToDate } = useContext(FoodCalendarContext);
 
   const handlePress = async () => {
@@ -20,8 +26,13 @@ const FoodDatabase = () => {
   };
 
   const handleFoodItemCardClick = (foodItem) => {
-    addFoodToDate("2023-06-12", foodItem);
+    setModalVisible(true);
+    setSelectedFood(foodItem);
   };
+
+  const handleModalSubmit = (meal) => {
+    setSelectedMeal(meal);
+  }
 
   const renderItem = ({ item }) => (
     <FoodItemCard
@@ -44,6 +55,17 @@ const FoodDatabase = () => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderItem}
       />
+
+      {selectedFood && (
+        <MealSelectionModal
+          visible={modalVisible}
+          onDismiss={() => setModalVisible(false)}
+          selectedMeal={selectedMeal}
+          selectedFood={selectedFood}
+          onMealSelect={handleModalSubmit}
+        />
+      )}
+
     </View>
   );
 };

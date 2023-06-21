@@ -14,6 +14,8 @@ export const theme1 = {
     primary: '#7900FF',
     secondary: '#548CFF',
     background: "#CFFFDC",
+    backdrop: "#000000DD",
+    onSurface: "#000000",
   },
 };
 
@@ -26,5 +28,6 @@ export const theme2 = {
     background: "#121212",
     onSurface: "#ebd9b7",
     secondaryContainer: "red",
+    backdrop: "#000000DD",
   },
 };

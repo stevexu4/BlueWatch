@@ -10,9 +10,6 @@ export const ThemeProvider = ({ children }) => {
       value={{
         index,
         setIndex,
-        navigateToFoodDatabase,
-        navigateToFoodHealthGoals,
-        navigateToMealPlanning,
       }}
     >
       {children}
